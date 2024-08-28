@@ -1,0 +1,20 @@
+mover arquivos
+renomear arquivos
+executar comandos de terminal
+loop
+if/else
+funções -> colocar qualquer função na biblioteca base da linguagem
+
+
+
+
+
+
+
+
+yt-dlp
+ffmpeg
+download img (python ou o que for mais fácil)
+
+mmsuite
+.mms
