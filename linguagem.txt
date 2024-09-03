@@ -1,20 +1,56 @@
+# comandos basicos (usando python shutil (biblioteca nativa))
 mover arquivos
 renomear arquivos
-executar comandos de terminal
-loop
-if/else
+
+mv rname
+
+operações basicas
+origin = arquivo; desti = pasta
+mv origin desti
+
+# arquivo para arquivo
+rname origin_arq new_name
+
+# executar comandos de terminal
+exec 'comando shell'
+
+# loop
+while ta baum de mais
+funcão para listar todos os arquivos numa variavel
+
+# if/else
+
+# fazer um programa .mms
+o programa python vai receber o mms e executar e adicionar na biblioteca padrão
+todos os arquivos mms q a gente precisar deixar no git e depois fazer um caso de teste para verificar se ta funcionando
+
 funções -> colocar qualquer função na biblioteca base da linguagem
 
+# yt-dlp
+funcao padrao que vamos usar é (dlyt = downlaod youtube)
+    dlyt link
 
+# ffmpeg
+cortar video
+cutvid arquivo_video time_init time_end
 
+video para gif
+vid2gif arquivo_video
 
+# youtube to gif (dlyt, cortar video)
+yt2gif link time_init time_end
 
+# mover todos os arquivos de um folder (origin = desti = folder)
+mvfolder origin desti
+(loop para todos os comandos)
 
-
-
-yt-dlp
-ffmpeg
+# talvez? se sobrar tempo
 download img (python ou o que for mais fácil)
+transformar todos os arquivos de um folder em outro formato usadno ffmpeg
 
+
+# nome
 mmsuite
+
+# formato do programa
 .mms
