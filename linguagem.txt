@@ -16,7 +16,8 @@ exec 'comando shell'
 
 # loop
 while ta baum de mais
-funcão para listar todos os arquivos numa variavel
+
+# funcão para listar todos os arquivos numa variavel
 
 # if/else
 

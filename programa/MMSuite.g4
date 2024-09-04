@@ -29,12 +29,8 @@ OP_REL
 	;
 
 OP_BOOL	
-	:	'AND' | 'OR'
+	:	'and' | 'or'
 	;
-	
-VALORES
-    : NUMINT | NUMREAL | CADEIA | VARIAVEL
-    ;
 
 fragment
 ESC_SEQ	: '\\\'';
@@ -49,13 +45,24 @@ WS  :   ( ' '
         ) -> skip
     ;
 
+
 programa
-	:	(comandos)*
+	:	(funcao)*
+	;
+
+funcao
+	:	VARIAVEL '(' VARIAVEL (',' VARIAVEL)* ')' (comandos)* 
     ;
 	
+
+valores
+    : (NUMINT | NUMREAL | CADEIA | VARIAVEL)
+    ;
+
 declaracao
-	:	VARIAVEL '=' VALORES
+	:	VARIAVEL '=' valores
 	;
+	
 	
 expressaoAritmetica
 	:	expressaoAritmetica OP_ARIT1 termoAritmetico
@@ -88,6 +95,7 @@ comandos
 	:	declaracao
 	|	comandoCondicao
 	|	comandoRepeticao
+	|   VARIAVEL
 	;
 	
 comandoCondicao
@@ -96,5 +104,5 @@ comandoCondicao
 	;
 	
 comandoRepeticao
-	:	'while' expressaoRelacional '{' comando '}'
+	:	'while' expressaoRelacional '{' comandos '}'
 	;
