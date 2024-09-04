@@ -45,8 +45,12 @@ mvfolder origin desti
 (loop para todos os comandos)
 
 # talvez? se sobrar tempo
-download img (python ou o que for mais fácil)
-transformar todos os arquivos de um folder em outro formato usadno ffmpeg
+* download img (python ou o que for mais fácil)
+* transformar todos os arquivos de um folder em outro formato usadno ffmpeg
+* passar um arquivo python para o programa e ele roda o programa
+* compilar?
+** https://docs.python.org/pt-br/3/library/py_compile.html
+
 
 
 # nome
