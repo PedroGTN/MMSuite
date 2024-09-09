@@ -46,14 +46,23 @@ WS  :   ( ' '
     ;
 
 
+funcao
+	:   decfuncao (comandos)*
+	;
+	
+
 programa
 	:	(funcao)*
 	;
 
-funcao
-	:	VARIAVEL '(' VARIAVEL (',' VARIAVEL)* ')' (comandos)* 
+parametros 
+	: VARIAVEL (',' VARIAVEL)*
+	;
+
+decfuncao
+	:	'func' VARIAVEL '(' parametros? ')'
     ;
-	
+
 
 valores
     : (NUMINT | NUMREAL | CADEIA | VARIAVEL)

@@ -8,6 +8,15 @@ else:
 # This class defines a complete listener for a parse tree produced by MMSuiteParser.
 class MMSuiteListener(ParseTreeListener):
 
+    # Enter a parse tree produced by MMSuiteParser#funcao.
+    def enterFuncao(self, ctx:MMSuiteParser.FuncaoContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#funcao.
+    def exitFuncao(self, ctx:MMSuiteParser.FuncaoContext):
+        pass
+
+
     # Enter a parse tree produced by MMSuiteParser#programa.
     def enterPrograma(self, ctx:MMSuiteParser.ProgramaContext):
         pass
@@ -17,12 +26,21 @@ class MMSuiteListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by MMSuiteParser#funcao.
-    def enterFuncao(self, ctx:MMSuiteParser.FuncaoContext):
+    # Enter a parse tree produced by MMSuiteParser#parametros.
+    def enterParametros(self, ctx:MMSuiteParser.ParametrosContext):
         pass
 
-    # Exit a parse tree produced by MMSuiteParser#funcao.
-    def exitFuncao(self, ctx:MMSuiteParser.FuncaoContext):
+    # Exit a parse tree produced by MMSuiteParser#parametros.
+    def exitParametros(self, ctx:MMSuiteParser.ParametrosContext):
+        pass
+
+
+    # Enter a parse tree produced by MMSuiteParser#decfuncao.
+    def enterDecfuncao(self, ctx:MMSuiteParser.DecfuncaoContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#decfuncao.
+    def exitDecfuncao(self, ctx:MMSuiteParser.DecfuncaoContext):
         pass
 
 

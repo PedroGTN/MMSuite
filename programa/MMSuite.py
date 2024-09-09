@@ -3,6 +3,7 @@ from antlr4 import *
 from antlr4.error.ErrorListener import ProxyErrorListener
 from MMSuiteLexer import MMSuiteLexer
 from MMSuiteParser import MMSuiteParser
+from VisitorInterp import VisitorInterp
 #Importanto error listener customizado
 #para poder ter mensagens de erro customizadas
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -14,7 +15,6 @@ from MMSuiteParser import MMSuiteParser
 # from Vocabulary import Vocabulary
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
 #Arrumando input caso esteja pra Windows e não linux
 archive_input = sys.argv[1].replace('\\', '/')
 
@@ -24,8 +24,14 @@ lexer = MMSuiteLexer(input_string)
 stream = CommonTokenStream(lexer)
 parser = MMSuiteParser(stream)
 
-parser.programa()
+tree = parser.programa()
 
-print('Fim da compilacao\n')
+if parser.getNumberOfSyntaxErrors() > 0:
+    print("syntax errors")
+else:
+    vinterp = VisitorInterp(tree, lexer)
+    vinterp.visitPrograma()
+
+print('Fim da compilacao.')
 
 
