@@ -1,10 +1,12 @@
 from antlr4 import *
+from antlr4.tree.Tree import TerminalNodeImpl
+
 from MMSuiteLexer import MMSuiteLexer
 from MMSuiteParser import MMSuiteParser
 from MMSuiteListener import MMSuiteListener
-from antlr4.tree.Tree import TerminalNodeImpl
 
-debug = 0
+
+debug = 2
 
 class VisitorInterp(MMSuiteListener):
     def __init__(self, ctx:MMSuiteParser.ProgramaContext, lexer:MMSuiteLexer, func_name, mmlib):
@@ -28,7 +30,7 @@ class VisitorInterp(MMSuiteListener):
         inicializa o cabeçário do arquivo python correspondente à função com imports básicos para o funcionamento
         """
         with open("lib/" + self.func_name + ".py", 'w') as out_file:
-            out_file.write("import os\nimport sys\n\n")
+            out_file.write("import os\nimport sys\nfrom .. import execute_func\n\n")
 
             
 
@@ -159,5 +161,13 @@ class VisitorInterp(MMSuiteListener):
                 out_file.write('import ' + line3[-1][1:-1] + '\n')
             elif line3[0] == 'from':
                 out_file.write('from ' + line3[1][1:-1] +  ' import ' + line3[-1][1:-1] + '\n')
+            elif line3[0] == 'return': # essa eh a lei do retorno, nao adianta chorar
+                out_file.write('return ' + line3[1] + '\n')
+            elif line1[0] == '17':
+                if line3[1] == '=':
+                    print("eh uma declaracao de variavel, mano.\n")
+                else: #temos uma execucao de funcao
+                    args = line3[0] + ' '
+                    arg_num = int(self.functions[line3[0]][0]) # captura o numer de argumentos do nosso dicionarrio de funcoes
         if debug == 2:
             print(line1, line2, line3)

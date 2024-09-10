@@ -73,6 +73,10 @@ parametros
 	: VARIAVEL (',' VARIAVEL)*
 	;
 
+argumentos 
+	: (VARIAVEL | cadeiacomposta) (',' (VARIAVEL | cadeiacomposta))*
+	;
+
 decfuncao
 	:	'func' VARIAVEL '(' parametros? ')'
     ;
@@ -82,7 +86,7 @@ python
 	;
 
 valores
-    : (NUMINT | NUMREAL | CADEIA | VARIAVEL)
+    : (NUMINT | NUMREAL | CADEIA | VARIAVEL | VARIAVEL'(' argumentos ')')
     ;
 
 declaracao

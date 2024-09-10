@@ -62,6 +62,15 @@ class MMSuiteListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MMSuiteParser#argumentos.
+    def enterArgumentos(self, ctx:MMSuiteParser.ArgumentosContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#argumentos.
+    def exitArgumentos(self, ctx:MMSuiteParser.ArgumentosContext):
+        pass
+
+
     # Enter a parse tree produced by MMSuiteParser#decfuncao.
     def enterDecfuncao(self, ctx:MMSuiteParser.DecfuncaoContext):
         pass
