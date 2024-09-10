@@ -55,6 +55,10 @@ if len(sys.argv) > 1: # se for necessaria a compilacao
                 if line is None: pass
                 line_split = line.split()
                 functions[line_split[0]] = [line_split[1],line_split[2], line_split[-1]]
+        
+        if not sys.argv[2] in functions.keys():
+            print("Já tirou irmão")
+            exit(42)
 
         functions.pop(sys.argv[2]) # remove a função da lista de funções
         os.remove('lib/' + sys.argv[2] + '.py')
@@ -101,7 +105,7 @@ else: # se uma funcao for ser interpretada
         for line in lines:
             if line is None: pass
             line_split = line.split()
-            functions[line_split[0]] = [line_split[0],line_split[1], line_split[-1]] 
+            functions[line_split[0]] = [line_split[1],line_split[2], line_split[-1]] 
     while (True):
         function = input('>>>')
         if function == 'exit': exit()
@@ -111,9 +115,9 @@ else: # se uma funcao for ser interpretada
         if not func_split[0] in functions.keys():
             print("Eu tenho um anuncio a fazer sobre shadow o ouriço... ele gerou um erro na minha esposa.")
         
-        if len(func_split) != int(func_args[0]) + 1:
-            print("ficou sem argumento, paizao...")
-            print(len(func_split), int(func_args[0]))
+        # if len(func_split) != int(func_args[0]) + 1 or int(func_args[0]) == 0:
+        #     print("ficou sem argumento, paizao...")
+        #     print(len(func_split), int(func_args[0]))
 
         cmd = ["python3", "lib/" + func_args[-1]] + func_split[1:]
         saida = shell_exec(cmd, functions[func_split[0]][2])

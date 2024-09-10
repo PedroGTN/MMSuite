@@ -30,7 +30,7 @@ class VisitorInterp(MMSuiteListener):
         inicializa o cabeçário do arquivo python correspondente à função com imports básicos para o funcionamento
         """
         with open("lib/" + self.func_name + ".py", 'w') as out_file:
-            out_file.write("import os\nimport sys\nfrom .. import execute_func\n\n")
+            out_file.write("import os\nimport sys\nfrom execute_func import mms_exec\n\n")
 
             
 
@@ -133,6 +133,10 @@ class VisitorInterp(MMSuiteListener):
 
             Raises:
         """
+
+        if debug == 2:
+            print(line1, line2, line3)
+
         with open("lib/" + self.func_name + ".py", 'a') as out_file:
             if line3[0] == 'func': # verificando se o primeiro token da linha é a palavra func para saber que estamos tratando de uma declaração de função
                 out_file.write('\n')
@@ -153,21 +157,39 @@ class VisitorInterp(MMSuiteListener):
             elif line3[0] == 'python': # verificando se é uma linha de python sendo passada diretamente para o programa
                 open_args = line3.index('(') # achando o primeiro parenteses da declaração
                 for i in range(open_args + 1, len(line3), 2):
-                    if line1[i] == '18': # verifica se é uma string
-                        out_file.write(line3[i][1:-1]) # removendo as aspas simples
-                    else:
-                        out_file.write(line3[i])
+                    out_file.write(line3[i][1:-1]) # removendo as aspas simples
             elif line3[0] == 'import':
                 out_file.write('import ' + line3[-1][1:-1] + '\n')
             elif line3[0] == 'from':
                 out_file.write('from ' + line3[1][1:-1] +  ' import ' + line3[-1][1:-1] + '\n')
             elif line3[0] == 'return': # essa eh a lei do retorno, nao adianta chorar
-                out_file.write('return ' + line3[1] + '\n')
-            elif line1[0] == '17':
+                self.func_desc[2] = 1
+                out_file.write('print(' + line3[1] + ')\n')
+            elif line1[0] == '18':
                 if line3[1] == '=':
-                    print("eh uma declaracao de variavel, mano.\n")
+                    self.variaveis.append(line3[0])
+                    out_file.write(line3[0] + ' = ')
+                    if '+' in line3:
+                        args = ''
+                        for i in range(2, len(line3)):
+                            args += line3[i] + ' '
+                        out_file.write(args + '\n')
+                    elif line1[2] == '19':
+                        out_file.write(line3[2] + '\n')
+                    elif line3[2] in self.functions.keys():
+                        args =''
+                        first_arg_ind = line3.index('(') + 1
+                        last_ind = line3.index(')')
+                        for i in range(first_arg_ind, last_ind, 2):
+                            args += line3[i] + ' + " " + '
+                        out_file.write('mms_exec(\"python3 lib/'+ line3[2] +'.py \" + ' + args[:-2] + ', 0'+')\n')
+                    elif line3[2] in self.variaveis: 
+                        out_file.write(line3[2] + '\n')
                 else: #temos uma execucao de funcao
-                    args = line3[0] + ' '
-                    arg_num = int(self.functions[line3[0]][0]) # captura o numer de argumentos do nosso dicionarrio de funcoes
-        if debug == 2:
-            print(line1, line2, line3)
+                    args = ' '
+                    first_arg_ind = line3.index('(') + 1
+                    last_ind = line3.index(')')
+                    for i in range(first_arg_ind, last_ind, 2):
+                            args += line3[i] + ' + " " + '
+                    out_file.write('mms_exec(\"python3 lib/'+ line3[0] +'.py \" + ' + args[:-2] + ', 0'+')\n')
+                    

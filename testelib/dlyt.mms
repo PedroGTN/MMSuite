@@ -1,3 +1,4 @@
 func dlyt(link)
-retorno = exec(link)
+args = 'yt-dlp ' + link
+retorno = exec(args)
 return retorno

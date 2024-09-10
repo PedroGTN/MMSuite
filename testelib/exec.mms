@@ -1,2 +1,2 @@
 func exec(comando)
-python('sys.exec('+comando+')')
+python('sys.exec(comando)')

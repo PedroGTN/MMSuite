@@ -1,5 +1,8 @@
 import os
 import sys
 
-comando = sys.argv[1]
-sys.exec(comando)
+comando = ''
+for i in sys.argv[1:]:
+    comando += i + ' '
+    
+os.system(comando)

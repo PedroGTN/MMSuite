@@ -13,8 +13,9 @@ def shell_exec(args, format='0'):
     """
     process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     saida = process.stdout.decode('utf-8')
+    erro = process.stderr.decode('utf-8')
 
-    # print(saida)
+    # print(saida, erro)
 
     if format == '1':
         saida = str(saida)
@@ -39,8 +40,10 @@ def mms_exec(args:str, format='0'):
     """
     process = subprocess.run(args.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     saida = process.stdout.decode('utf-8')
+    erro = process.stderr.decode('utf-8')
 
-    # print(saida)
+    # print(saida, erro)
+
 
     if format == '1':
         saida = str(saida)

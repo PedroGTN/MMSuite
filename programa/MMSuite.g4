@@ -32,10 +32,6 @@ OP_BOOL
 	:	'and' | 'or'
 	;
 
-RETURN
-	: 'return'
-	;
-
 fragment
 ESC_SEQ	: '\\\'';
 COMENTARIO
@@ -50,7 +46,7 @@ WS  :   ( ' '
     ;
 
 funcao
-	:   decfuncao (comandos)* ('return' '(' parametros? ')')?
+	:   decfuncao (comandos)* return?
 	;
 
 importing
@@ -73,10 +69,6 @@ parametros
 	: VARIAVEL (',' VARIAVEL)*
 	;
 
-argumentos 
-	: (VARIAVEL | cadeiacomposta) (',' (VARIAVEL | cadeiacomposta))*
-	;
-
 decfuncao
 	:	'func' VARIAVEL '(' parametros? ')'
     ;
@@ -86,7 +78,7 @@ python
 	;
 
 valores
-    : (NUMINT | NUMREAL | CADEIA | VARIAVEL | VARIAVEL'(' argumentos ')')
+    : (NUMINT | NUMREAL | VARIAVEL'(' parametros ')' | cadeiacomposta)
     ;
 
 declaracao
@@ -125,12 +117,15 @@ cadeiacomposta
 	:    (CADEIA | VARIAVEL) ('+' (CADEIA|VARIAVEL))*
 	;
 
+return
+	:	'return' VARIAVEL
+	;
+
 comandos
 	:	declaracao
 	|	comandoCondicao
 	|	comandoRepeticao
-	|   VARIAVEL
-	|   RETURN
+	|   ( VARIAVEL '(' parametros ')' )
 	|   python
 	;
 	
