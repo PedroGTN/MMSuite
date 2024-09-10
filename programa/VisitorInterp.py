@@ -10,14 +10,23 @@ class VisitorInterp(MMSuiteListener):
     def __init__(self, ctx:MMSuiteParser.ProgramaContext, lexer:MMSuiteLexer, func_name, mmlib):
         self.ctx = ctx
         MMSuiteParser.ProgramaContext.start
-        self.functions = self.listfunctions(mmlib)
-        self.funcarchive = mmlib
-        self.variaveis = []
-        self.func_name = func_name
+        self.functions = self.listfunctions(mmlib) # inicializa a lista de funções disponíveis na biblioteca da linguagem
+
+        if func_name in self.functions.keys(): # verifica se a função que será criada já está na biblioteca
+            print("Nome de funcao incompativel, já existe uma funcao com esse nome.")
+            print("Compilacao cancelada.")
+            exit(1)
+
+        self.funcarchive = mmlib # nome do arquivo de funções
+        self.variaveis = [] # vetor onde serão guardadas as variáveis para verificação de existência
+        self.func_name = func_name # nome da função que será adicionada
         self.initarq()
-        self.func_desc = [func_name, 0, 0, func_name + '.py']
+        self.func_desc = [func_name, 0, 0, func_name + '.py'] # inicializa a descrição da função que será adicionada formatação: nome num_argumentos retorno(sim/não) nome_arquivo_python
 
     def initarq(self):
+        """
+        inicializa o cabeçário do arquivo python correspondente à função com imports básicos para o funcionamento
+        """
         with open("lib/" + self.func_name + ".py", 'w') as out_file:
             out_file.write("import os\nimport sys\n\n")
 
@@ -44,7 +53,7 @@ class VisitorInterp(MMSuiteListener):
 
     def getTokenName(self, token):
         """
-        Ta ligado o que isso faz
+        recebe um token do ANTLR e retorna o número que corresponde aquele token dentro das definições da gramática
         """
         if isinstance(token, TerminalNode):
             return (token.symbol.type)
@@ -55,8 +64,8 @@ class VisitorInterp(MMSuiteListener):
         """
         Funcao que itera pelas linhas as tokenizando e entao as envia para analise
         """
-        for i in range(self.ctx.getChildCount()):
-            for j in range(self.ctx.getChild(i).getChildCount()):
+        for i in range(self.ctx.getChildCount()): # itera pelos filhos do programa
+            for j in range(self.ctx.getChild(i).getChildCount()): # para cada filho do programa itera por seus filhos tokenizando eles em arrays de strings
                 
                 text, text2 = self.visitToken(self.ctx.getChild(i).getChild(j))
                 if debug>1:
@@ -68,7 +77,7 @@ class VisitorInterp(MMSuiteListener):
             
                 self.analyzeLine(line, line2, text2.split())
         
-        with open(self.funcarchive, 'a') as lib:
+        with open(self.funcarchive, 'a') as lib: # escreve a função que foi descrita como parte da lib
             for i in self.func_desc:
                 lib.write(str(i) + ' ')
             lib.write('\n')
@@ -78,23 +87,23 @@ class VisitorInterp(MMSuiteListener):
 
     def visitToken(self, token):
         """
-        Tokeniza as linas em um vetor de termos separados
+        Recebe um nó da árvore do antlr e visita cada nó folha colocando-os como várias strings em uma array i.e. tokeniza as folhas
 
             Args:
-            Param1 (ANTLR Token): Token criado pelo ANTLR
+            Param1 (ANTLR Token): Nó da árvore criada pelo ANTLR
 
             Returns:
-            Param1 (Array Str): Tokens em forma de string
+            Param1 (Array Str): Folhas filhas deste nó em forma de string
         """
-        ret = self.getTokenName(token)
+        ret = self.getTokenName(token) # recebe o identificador do token
 
-        if isinstance(token, TerminalNodeImpl):
+        if isinstance(token, TerminalNodeImpl): # verifica se é uma folha
             token_mesmo = token.getParent().start
             line = str(token_mesmo.line)
         else:
             line = '-1'
             
-        if ret > 0:
+        if ret > 0: # nós folhas possuem identificador maior que zero, logo apenas irá salvar caso seja folha
             text = str(ret) + '|' + line + " "
             text2 = token.getText() + " "
         else:
@@ -102,11 +111,11 @@ class VisitorInterp(MMSuiteListener):
             text2 = ''
         if not isinstance(token, TerminalNode):
             for i in range(token.getChildCount()):
-                text_final = self.visitToken(token.getChild(i))
+                text_final = self.visitToken(token.getChild(i)) # recursão para conseguir os outros tokens
                 text += text_final[0]
                 text2 += text_final[1]
 
-        return [text,text2]
+        return [text,text2] # tokens como strings e identificadores de tipo da gramática sendo retornados
 
     def analyzeLine(self, line1, line2, line3):
         """
@@ -123,23 +132,32 @@ class VisitorInterp(MMSuiteListener):
             Raises:
         """
         with open("lib/" + self.func_name + ".py", 'a') as out_file:
-            if line3[0] == 'func':
-                open_args = line3.index('(')
+            if line3[0] == 'func': # verificando se o primeiro token da linha é a palavra func para saber que estamos tratando de uma declaração de função
+                out_file.write('\n')
+                open_args = line3.index('(') # achando o primeiro parenteses da função
                 args = []
-                for i in range(open_args + 1, len(line3), 2):
+                for i in range(open_args + 1, len(line3), 2): # iterando apenas pelos agumentos da função
                     args.append(line3[i])
                     self.variaveis.append(line3[1]) # salva as variaveis para analizar outras linhas
-                print(args)
+                
+                if debug == 1:
+                    print(args)# printa o vetor de argumentos
 
-                self.func_desc[1] = len(args)
+                self.func_desc[1] = len(args)# atualiza a descrição da função atual colocando o número de argumentos que ela recebe
 
                 for i in range(len(args)):
-                    out_file.write(args[i] + ' = ' + 'sys.argv[' + str(i+1) + ']\n') # passa ao python os argumentos da funcao
-            elif line3[0] == 'python':
-                open_args = line3.index('(')
+                    out_file.write(args[i] + ' = ' + 'sys.argv[' + str(i+1) + ']\n') # passa ao python os argumentos da funcao como entradas do stdin
+
+            elif line3[0] == 'python': # verificando se é uma linha de python sendo passada diretamente para o programa
+                open_args = line3.index('(') # achando o primeiro parenteses da declaração
                 for i in range(open_args + 1, len(line3), 2):
-                    if line1[i] == '16':
-                        out_file.write(line3[i][1:-1])
+                    if line1[i] == '18': # verifica se é uma string
+                        out_file.write(line3[i][1:-1]) # removendo as aspas simples
                     else:
                         out_file.write(line3[i])
-        # print(line1, line2, line3)
+            elif line3[0] == 'import':
+                out_file.write('import ' + line3[-1][1:-1] + '\n')
+            elif line3[0] == 'from':
+                out_file.write('from ' + line3[1][1:-1] +  ' import ' + line3[-1][1:-1] + '\n')
+        if debug == 2:
+            print(line1, line2, line3)

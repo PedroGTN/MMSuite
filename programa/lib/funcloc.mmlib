@@ -1,1 +1,2 @@
-rname 2 0 rname.py 
+exec 1 0 exec.py
+mv 2 0 mv.py 

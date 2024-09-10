@@ -17,6 +17,33 @@ class MMSuiteListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MMSuiteParser#importing.
+    def enterImporting(self, ctx:MMSuiteParser.ImportingContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#importing.
+    def exitImporting(self, ctx:MMSuiteParser.ImportingContext):
+        pass
+
+
+    # Enter a parse tree produced by MMSuiteParser#func_importing.
+    def enterFunc_importing(self, ctx:MMSuiteParser.Func_importingContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#func_importing.
+    def exitFunc_importing(self, ctx:MMSuiteParser.Func_importingContext):
+        pass
+
+
+    # Enter a parse tree produced by MMSuiteParser#imports.
+    def enterImports(self, ctx:MMSuiteParser.ImportsContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#imports.
+    def exitImports(self, ctx:MMSuiteParser.ImportsContext):
+        pass
+
+
     # Enter a parse tree produced by MMSuiteParser#programa.
     def enterPrograma(self, ctx:MMSuiteParser.ProgramaContext):
         pass

@@ -53,8 +53,20 @@ funcao
 	:   decfuncao (comandos)* ('return' '(' parametros? ')')?
 	;
 
+importing
+	:	'import' CADEIA
+	;
+
+func_importing
+	:	'from' CADEIA 'import' CADEIA
+	;
+
+imports
+	:	(importing|func_importing)*
+	;
+
 programa
-	:	(funcao)* EOF
+	:	imports (funcao)* EOF
 	;
 
 parametros 
