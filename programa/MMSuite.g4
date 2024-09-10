@@ -32,6 +32,10 @@ OP_BOOL
 	:	'and' | 'or'
 	;
 
+RETURN
+	: 'return'
+	;
+
 fragment
 ESC_SEQ	: '\\\'';
 COMENTARIO
@@ -45,14 +49,12 @@ WS  :   ( ' '
         ) -> skip
     ;
 
-
 funcao
-	:   decfuncao (comandos)*
+	:   decfuncao (comandos)* ('return' '(' parametros? ')')?
 	;
-	
 
 programa
-	:	(funcao)*
+	:	(funcao)* EOF
 	;
 
 parametros 
@@ -63,6 +65,9 @@ decfuncao
 	:	'func' VARIAVEL '(' parametros? ')'
     ;
 
+python
+	: 'python' '(' cadeiacomposta ')'
+	;
 
 valores
     : (NUMINT | NUMREAL | CADEIA | VARIAVEL)
@@ -100,11 +105,17 @@ termoRelacional
 	|	'(' expressaoRelacional ')'
 	;
 	
+cadeiacomposta
+	:    (CADEIA | VARIAVEL) ('+' (CADEIA|VARIAVEL))*
+	;
+
 comandos
 	:	declaracao
 	|	comandoCondicao
 	|	comandoRepeticao
 	|   VARIAVEL
+	|   RETURN
+	|   python
 	;
 	
 comandoCondicao
@@ -115,3 +126,4 @@ comandoCondicao
 comandoRepeticao
 	:	'while' expressaoRelacional '{' comandos '}'
 	;
+

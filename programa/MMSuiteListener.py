@@ -44,6 +44,15 @@ class MMSuiteListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by MMSuiteParser#python.
+    def enterPython(self, ctx:MMSuiteParser.PythonContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#python.
+    def exitPython(self, ctx:MMSuiteParser.PythonContext):
+        pass
+
+
     # Enter a parse tree produced by MMSuiteParser#valores.
     def enterValores(self, ctx:MMSuiteParser.ValoresContext):
         pass
@@ -104,6 +113,15 @@ class MMSuiteListener(ParseTreeListener):
 
     # Exit a parse tree produced by MMSuiteParser#termoRelacional.
     def exitTermoRelacional(self, ctx:MMSuiteParser.TermoRelacionalContext):
+        pass
+
+
+    # Enter a parse tree produced by MMSuiteParser#cadeiacomposta.
+    def enterCadeiacomposta(self, ctx:MMSuiteParser.CadeiacompostaContext):
+        pass
+
+    # Exit a parse tree produced by MMSuiteParser#cadeiacomposta.
+    def exitCadeiacomposta(self, ctx:MMSuiteParser.CadeiacompostaContext):
         pass
 
 

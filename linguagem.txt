@@ -52,10 +52,17 @@ mvfolder origin desti
 * compilar?
 ** https://docs.python.org/pt-br/3/library/py_compile.html
 
-
+# pra rodar funcao:
+func arg arg arg (igual shell)
 
 # nome
 mmsuite
 
 # formato do programa
 .mms
+
+
+SE A FUNCAO JA EXISTE VAMOS RETORNAR UM ERRO
+COLOCAR FORMA DE DELETAR UMA FUNCAO
+
+TIPO 16 TIRA ASPA SIMPLES
