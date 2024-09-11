@@ -173,11 +173,17 @@ class VisitorInterp(MMSuiteListener):
                         args = ''
                         for i in range(2, len(line3)):
                             args += line3[i] + ' '
+
+                            if line1[i] == '18' and not line3[i] in self.variaveis: #verificando se a variável de string existe antes de concatená-la 
+                                print("Variável não declarada anteriormente tentando ser usada \"" + line3[i] + "\" na linha " + line2[i])
+                                print("Compilação abortada")
+                                exit(1)
+
                         out_file.write(args + '\n')
                     elif line1[2] == '19':
                         out_file.write(line3[2] + '\n')
                     elif line3[2] in self.functions.keys():
-                        args =''
+                        args = ''
                         first_arg_ind = line3.index('(') + 1
                         last_ind = line3.index(')')
                         for i in range(first_arg_ind, last_ind, 2):
@@ -185,11 +191,27 @@ class VisitorInterp(MMSuiteListener):
                         out_file.write('mms_exec(\"python3 lib/'+ line3[2] +'.py \" + ' + args[:-2] + ', 0'+')\n')
                     elif line3[2] in self.variaveis: 
                         out_file.write(line3[2] + '\n')
+                    else: # Análise semântica sendo realizada
+                        print("Função ou variável não declarada anteriormente tentando ser usada")
+                        print(line3[2] + " encontrado na linha " + line2[2] + "\nCompilação abortada")
+                        exit(1)
                 else: #temos uma execucao de funcao
+                    if not line3[0] in self.functions.keys(): #verificando se a função realmente existe antes de executá-la 
+                        print("Função desconhecida sendo executada \"" + line3[0] + "\" na linha " + line2[0] + "\nCompilação abortada")
+                        exit(1)
                     args = ' '
                     first_arg_ind = line3.index('(') + 1
                     last_ind = line3.index(')')
+
+                    arg_count = 0
                     for i in range(first_arg_ind, last_ind, 2):
-                            args += line3[i] + ' + " " + '
+                        args += line3[i] + ' + " " + '
+                        arg_count += 1
+
+                    if arg_count != self.functions[line3[0]][0] and int(self.functions[line3[0]][0]): #verificando se o número de argumentos passados é o mesmo que a função precisa
+                        print("Número errado de argumentos usados na chamada da função \"" + line3[0] + "\" na linha " + line2[0])
+                        print("Compilação abortada")
+                        exit(1)
+
                     out_file.write('mms_exec(\"python3 lib/'+ line3[0] +'.py \" + ' + args[:-2] + ', 0'+')\n')
                     
