@@ -15,5 +15,13 @@ for l in lines:
         saida = l
 
 saida = saida.split('\"')[-2]
+saida2 = saida.replace(' ', '_')
 
-print(saida)
+for i in range(len(saida2)):
+    if saida2[i] > '~':
+        saida2.replace(saida2[i], '_')
+        i-=1
+
+os.rename(saida, saida2)
+
+print(saida2)
