@@ -1,0 +1,39 @@
+Testes léxicos/sintáticos:
+Teste 01:
+    Codigo test_cut_vid.mms nao tem virgulas entre os argumentos
+    Falha no ANTLR!
+    line 2:11 mismatched input '0' expecting ')'
+    Erros de sintaxe
+    python3 ../programa/MMSuite.py add test_cut_vid.mms
+
+Teste 02:
+    Codigo test_exec.mms nao fechou parenteses
+    Falha no ANTLR!
+    line 3:47 missing ')' at '<EOF>'
+    Erros de sintaxe
+    python3 ../programa/MMSuite.py add test_exec.mms
+
+Teste 03:
+    Codigo return_no_return.mms nao tem valor de retorno apos o termo retorno 
+    Falha no ANTLR!
+    line 2:32 missing VARIAVEL at '<EOF>'
+    Erros de sintaxe
+    python3 ../programa/MMSuite.py add return_no_return.mms
+
+_______________________________________________________________
+Testes semânticos:
+Teste 04:
+    Chamou funcao que nao existe
+    Erro! ESCREVER A SAIDA AQUI
+    python3 ../programa/MMSuite.py add func_que_nao_existe.mms
+
+Teste 05:
+    Usou variavel que nao existe
+    Erro! ESCREVER A SAIDA AQUI
+    python3 ../programa/MMSuite.py add var_que_nao_existe.mms
+
+Teste 06:
+    Numero errado de argumentos
+    Erro! ESCREVER A SAIDA AQUI
+    python3 ../programa/MMSuite.py add num_errado_args.mms
+
