@@ -24,16 +24,20 @@ _______________________________________________________________
 Testes semânticos:
 Teste 04:
     Chamou funcao que nao existe
-    Erro! ESCREVER A SAIDA AQUI
+    "Função desconhecida sendo executada "del" na linha 2"
+    "Compilação abortada"
     python3 ../programa/MMSuite.py add func_que_nao_existe.mms
 
 Teste 05:
     Usou variavel que nao existe
-    Erro! ESCREVER A SAIDA AQUI
+    "Função ou variável não declarada anteriormente tentando ser usada"
+    "var2 encontrado na linha 2"
+    "Compilação abortada"
     python3 ../programa/MMSuite.py add var_que_nao_existe.mms
 
 Teste 06:
     Numero errado de argumentos
-    Erro! ESCREVER A SAIDA AQUI
+    "Número errado de argumentos usados na chamada da função "cutvid" na linha 2"
+    "Compilação abortada"
     python3 ../programa/MMSuite.py add num_errado_args.mms
 

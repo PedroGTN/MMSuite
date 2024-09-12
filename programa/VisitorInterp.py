@@ -5,8 +5,11 @@ from MMSuiteLexer import MMSuiteLexer
 from MMSuiteParser import MMSuiteParser
 from MMSuiteListener import MMSuiteListener
 
+import os
 
-debug = 2
+
+debug = 0
+current_dir = os.path.dirname(__file__)
 
 class VisitorInterp(MMSuiteListener):
     def __init__(self, ctx:MMSuiteParser.ProgramaContext, lexer:MMSuiteLexer, func_name, mmlib):
@@ -29,7 +32,7 @@ class VisitorInterp(MMSuiteListener):
         """
         inicializa o cabeçário do arquivo python correspondente à função com imports básicos para o funcionamento
         """
-        with open("lib/" + self.func_name + ".py", 'w') as out_file:
+        with open(current_dir + "/lib/" + self.func_name + ".py", 'w') as out_file:
             out_file.write("import os\nimport sys\nfrom execute_func import mms_exec\n\n")
 
             
@@ -134,17 +137,33 @@ class VisitorInterp(MMSuiteListener):
             Raises:
         """
 
+        i = 0
+        while(i < len(line3)):
+            if '\'' in line3[i]:
+                if line3[i][-1] == '\'':
+                    break
+                j = i + 1
+                while(j < len(line3)):
+                    if '\'' in line3[j]:
+                        break
+                    j += 1
+                for k in range(i, j):
+                    line3[i] = line3[i] + ' ' + line3[i+1]
+                    line3.pop(i+1)
+
+            i += 1            
+
         if debug == 2:
             print(line1, line2, line3)
 
-        with open("lib/" + self.func_name + ".py", 'a') as out_file:
+        with open(current_dir + "/lib/" + self.func_name + ".py", 'a') as out_file:
             if line3[0] == 'func': # verificando se o primeiro token da linha é a palavra func para saber que estamos tratando de uma declaração de função
                 out_file.write('\n')
                 open_args = line3.index('(') # achando o primeiro parenteses da função
                 args = []
                 for i in range(open_args + 1, len(line3), 2): # iterando apenas pelos agumentos da função
                     args.append(line3[i])
-                    self.variaveis.append(line3[1]) # salva as variaveis para analizar outras linhas
+                    self.variaveis.append(line3[i]) # salva as variaveis para analizar outras linhas
                 
                 if debug == 1:
                     print(args)# printa o vetor de argumentos
@@ -173,8 +192,7 @@ class VisitorInterp(MMSuiteListener):
                         args = ''
                         for i in range(2, len(line3)):
                             args += line3[i] + ' '
-
-                            if line1[i] == '18' and not line3[i] in self.variaveis: #verificando se a variável de string existe antes de concatená-la 
+                            if line1[i] == '18' and not line3[i] in self.variaveis and line3[i] != '+': #verificando se a variável de string existe antes de concatená-la 
                                 print("Variável não declarada anteriormente tentando ser usada \"" + line3[i] + "\" na linha " + line2[i])
                                 print("Compilação abortada")
                                 exit(1)
@@ -188,7 +206,7 @@ class VisitorInterp(MMSuiteListener):
                         last_ind = line3.index(')')
                         for i in range(first_arg_ind, last_ind, 2):
                             args += line3[i] + ' + " " + '
-                        out_file.write('mms_exec(\"python3 lib/'+ line3[2] +'.py \" + ' + args[:-2] + ', 0'+')\n')
+                        out_file.write('mms_exec(\"python3 ' + current_dir + '/lib/'+ line3[2] +'.py \" + ' + args[:-2] + ', 0'+')\n')
                     elif line3[2] in self.variaveis: 
                         out_file.write(line3[2] + '\n')
                     else: # Análise semântica sendo realizada
@@ -213,5 +231,5 @@ class VisitorInterp(MMSuiteListener):
                         print("Compilação abortada")
                         exit(1)
 
-                    out_file.write('mms_exec(\"python3 lib/'+ line3[0] +'.py \" + ' + args[:-2] + ', 0'+')\n')
+                    out_file.write('mms_exec(\"python3 ' + current_dir + '/lib/'+ line3[0] +'.py \" + ' + args[:-2] + ', 0'+')\n')
                     

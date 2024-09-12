@@ -12,10 +12,8 @@ def shell_exec(args, format='0'):
         Param1 (Any): Tipo definido pelo Param2, stdout do programa que foi executado
     """
     process = subprocess.run(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    saida = process.stdout.decode('utf-8')
+    saida = process.stdout.decode('utf-8')[:-1]
     erro = process.stderr.decode('utf-8')
-
-    # print(saida, erro)
 
     if format == '1':
         saida = str(saida)
@@ -39,7 +37,7 @@ def mms_exec(args:str, format='0'):
         Param1 (Any): Tipo definido pelo Param2, stdout do programa que foi executado
     """
     process = subprocess.run(args.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    saida = process.stdout.decode('utf-8')
+    saida = process.stdout.decode('utf-8')[:-1]
     erro = process.stderr.decode('utf-8')
 
     # print(saida, erro)
