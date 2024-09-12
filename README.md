@@ -4,7 +4,7 @@ Esta é uma linguagem que busca dar ao usuário a possibilidade de criar uma cai
 
 Toda função que o usuário cria é enviada para a biblioteca padrão da linguagem, para poder ser usada individualmente ou para que possa integrar outras funções de forma que se possa realizar manipulações muito complexas.  
 
-Para fazer uso da linguagem basta que se escreva um arquivo com a extensão _.mms_ que contenha a declaração de uma função e seu comportamento, depois pode-se rodar a função criada com `python3 ../programa/MMSuite.py nova_func.mms` ou adicionar a função à bilbioteca padrão com `python3 ../programa/MMSuite.py add nova_func.mms`. Caso a função desejada já esteja na biblioteca padrão, pode-se inicar a linguagem no modo console com `python3 ../programa/MMSuite.py` e invocar diretamente as funções desejadas.  
+Para fazer uso da linguagem basta que se escreva um arquivo com a extensão _.mms_ que contenha a declaração de uma função e seu comportamento, depois pode-se rodar a função criada com `python3 MMSuite.py nova_func.mms` ou adicionar a função à bilbioteca padrão com `python3 MMSuite.py add nova_func.mms`. Caso a função desejada já esteja na biblioteca padrão, pode-se inicar a linguagem no modo console com `python3 MMSuite.py` e invocar diretamente as funções desejadas.  
 
 Um exemplo de programa .mms pode ser observado a seguir:  
 ```
