@@ -1,5 +1,7 @@
 # Media Manipulation Suite
 
+Link para o vídeo: https://youtu.be/0VjoX5h2yGo
+
 Esta é uma linguagem que busca dar ao usuário a possibilidade de criar uma caixa de ferramentas de manipulação de midias por meio de um interpretador no console.  
 
 Toda função que o usuário cria é enviada para a biblioteca padrão da linguagem, para poder ser usada individualmente ou para que possa integrar outras funções de forma que se possa realizar manipulações muito complexas.  
